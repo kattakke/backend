@@ -16,4 +16,5 @@ def health_check():  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    return ApiResponse(code="200", type="string", message="OK")
+    
