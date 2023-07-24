@@ -1,0 +1,506 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: admin@example.com
+  description: (*^^*)
+  license:
+    name: Kattakke License
+    url: http://localhost/licenses
+  termsOfService: http://localhost/terms/
+  title: Swagger Kattakke - OpenAPI 3.0
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Kattakke
+  url: http://localhost/
+servers:
+- url: http://localhost/api/v3
+tags:
+- description: Auth
+  name: auth
+- description: book
+  name: book
+- description: search
+  name: search
+paths:
+  /auth/login:
+    post:
+      description: Returns me
+      operationId: auth_login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/authLogin_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      security:
+      - api_key: []
+      summary: Returns me
+      tags:
+      - auth
+      x-openapi-router-controller: openapi_server.controllers.auth_controller
+  /auth/logout:
+    patch:
+      description: logout
+      operationId: auth_logout
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: logout
+      tags:
+      - auth
+      x-openapi-router-controller: openapi_server.controllers.auth_controller
+  /auth/me:
+    get:
+      description: Returns me
+      operationId: auth_me
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      security:
+      - api_key: []
+      summary: Returns me
+      tags:
+      - auth
+      x-openapi-router-controller: openapi_server.controllers.auth_controller
+  /books:
+    post:
+      description: post book info
+      operationId: post_book
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postBook_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: successful operation
+      summary: post book info
+      tags:
+      - book
+      x-openapi-router-controller: openapi_server.controllers.book_controller
+  /books/{bookId}:
+    delete:
+      description: delete book info
+      operationId: delete_book_info
+      parameters:
+      - description: ID of book
+        explode: false
+        in: path
+        name: bookId
+        required: true
+        schema:
+          format: UUID
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: delete book info
+      tags:
+      - book
+      x-openapi-router-controller: openapi_server.controllers.book_controller
+    get:
+      description: get book info
+      operationId: get_book_info
+      parameters:
+      - description: ID of book
+        explode: false
+        in: path
+        name: bookId
+        required: true
+        schema:
+          format: UUID
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: successful operation
+      summary: get book info
+      tags:
+      - book
+      x-openapi-router-controller: openapi_server.controllers.book_controller
+    patch:
+      description: patch book info
+      operationId: patch_book_info
+      parameters:
+      - description: ID of book
+        explode: false
+        in: path
+        name: bookId
+        required: true
+        schema:
+          format: UUID
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postBook_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+          description: successful operation
+      summary: patch book info
+      tags:
+      - book
+      x-openapi-router-controller: openapi_server.controllers.book_controller
+  /search:
+    get:
+      description: search book
+      operationId: get_search_book
+      parameters:
+      - description: The title of book
+        explode: true
+        in: query
+        name: title
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: The isbn of book
+        explode: true
+        in: query
+        name: isbn
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postBook_request'
+          description: successful operation
+      summary: search book
+      tags:
+      - search
+      x-openapi-router-controller: openapi_server.controllers.search_controller
+  /users:
+    post:
+      description: register
+      operationId: user_register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/authLogin_request'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: register
+      tags:
+      - user
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+  /users/{userId}:
+    delete:
+      description: delete user info
+      operationId: delete_user_info
+      parameters:
+      - description: ID of user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: UUID
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: delete user info
+      tags:
+      - user
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+    get:
+      description: get user info
+      operationId: get_user_info
+      parameters:
+      - description: ID of user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: UUID
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: successful operation
+      summary: get user info
+      tags:
+      - user
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+    patch:
+      description: patch user info
+      operationId: patch_user_info
+      parameters:
+      - description: ID of user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: UUID
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: patch user info
+      tags:
+      - user
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+  /users/{userId}/shelf:
+    get:
+      description: get user shelf
+      operationId: get_user_shelf
+      parameters:
+      - description: ID of user
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          format: UUID
+          type: string
+        style: simple
+      - description: The title of book
+        explode: true
+        in: query
+        name: title
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: The tag of book
+        explode: true
+        in: query
+        name: tag
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: The isbn of book
+        explode: true
+        in: query
+        name: isbn
+        required: false
+        schema:
+          type: string
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  format: UUID
+                  type: string
+                type: array
+          description: successful operation
+      summary: get user shelf
+      tags:
+      - user
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+components:
+  schemas:
+    Book:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        author: author
+        isbn: isbn
+        bookdId: bookdId
+        title: title
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        bookdId:
+          format: UUID
+          title: bookdId
+          type: string
+        isbn:
+          nullable: true
+          title: isbn
+          type: string
+        title:
+          title: title
+          type: string
+        author:
+          nullable: true
+          title: author
+          type: string
+        createdAt:
+          format: date-time
+          title: createdAt
+          type: string
+        updatedAt:
+          format: date-time
+          title: updatedAt
+          type: string
+      title: Book
+      type: object
+    User:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        password: password
+        jwt-secret: jwt-secret
+        name: name
+        userId: userId
+        shelf: shelf
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        userId:
+          format: UUID
+          title: userId
+          type: string
+        name:
+          title: name
+          type: string
+        password:
+          title: password
+          type: string
+        jwt-secret:
+          title: jwt-secret
+          type: string
+        shelf:
+          format: UUID
+          title: shelf
+          type: string
+        createdAt:
+          format: date-time
+          title: createdAt
+          type: string
+        updatedAt:
+          format: date-time
+          title: updatedAt
+          type: string
+      title: User
+      type: object
+    Shelf:
+      properties:
+        shelfId:
+          format: UUID
+          type: string
+        books:
+          items:
+            format: UUID
+            type: string
+          type: array
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      type: object
+    ApiResponse:
+      example:
+        code: 0
+        type: type
+        message: message
+      properties:
+        code:
+          format: int32
+          title: code
+          type: integer
+        type:
+          title: type
+          type: string
+        message:
+          title: message
+          type: string
+      title: ApiResponse
+      type: object
+      xml:
+        name: '##default'
+    authLogin_request:
+      properties:
+        id:
+          title: id
+          type: string
+        password:
+          title: password
+          type: string
+      title: authLogin_request
+      type: object
+    postBook_request:
+      example:
+        author: author
+        isbn: isbn
+        title: title
+      properties:
+        isbn:
+          title: isbn
+          type: string
+        title:
+          title: title
+          type: string
+        author:
+          title: author
+          type: string
+      title: postBook_request
+      type: object
+  securitySchemes:
+    petstore_auth:
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+      type: oauth2
+      x-tokenInfoFunc: openapi_server.controllers.security_controller_.info_from_petstore_auth
+      x-scopeValidateFunc: openapi_server.controllers.security_controller_.validate_scope_petstore_auth
+    api_key:
+      in: header
+      name: api_key
+      type: apiKey
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_api_key

@@ -45,27 +45,29 @@ Windowsの場合
 .\env\bin\activate.bat
 ```
 
-5. FastAPIをインストール
+5. requirements.txtをインストール
 ```
-python -m pip install -r requirements.txt
+python -m pip install -r ./src/requirements.txt
 ```
 
 6. コードを実行する
 
 ```
-uvicorn main:app --reload
+cd ./src
+python3 -m openapi_server
 ```
 
 7. 作動確認
 
-[ここ](http://127.0.0.1:8000)を開き、正しく表示されるか確認すること
+[ここ](http://127.0.0.1:8080)を開き、正しく表示されるか確認すること
 
 以下の内容が表示されたら成功！
 
 ```
-{"message":"Hello World"}
+{
+  "detail": "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.",
+  "status": 404,
+  "title": "Not Found",
+  "type": "about:blank"
+}
 ```
-
-SwaggerからAPIの仕様を確認してみよう
-
-[Swagger](http://127.0.0.1:8000/docs)を開き、正しく表示されるか確認してみよう
