@@ -21,6 +21,8 @@ tags:
   name: book
 - description: search
   name: search
+- description: etc
+  name: etc
 paths:
   /auth/login:
     post:
@@ -174,6 +176,21 @@ paths:
       tags:
       - book
       x-openapi-router-controller: openapi_server.controllers.book_controller
+  /health:
+    get:
+      description: Always return 200
+      operationId: health_check
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+          description: successful operation
+      summary: Health Check API
+      tags:
+      - etc
+      x-openapi-router-controller: openapi_server.controllers.etc_controller
   /search:
     get:
       description: search book
