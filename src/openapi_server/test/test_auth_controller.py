@@ -26,7 +26,7 @@ class TestAuthController(BaseTestCase):
             'api_key': 'special-key',
         }
         response = self.client.open(
-            '/api/v3/auth/login',
+            '/api/v0/auth/login',
             method='POST',
             headers=headers,
             data=json.dumps(auth_login_request),
@@ -43,7 +43,7 @@ class TestAuthController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/auth/logout',
+            '/api/v0/auth/logout',
             method='PATCH',
             headers=headers)
         self.assert200(response,
@@ -59,7 +59,7 @@ class TestAuthController(BaseTestCase):
             'api_key': 'special-key',
         }
         response = self.client.open(
-            '/api/v3/auth/me',
+            '/api/v0/auth/me',
             method='GET',
             headers=headers)
         self.assert200(response,

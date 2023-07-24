@@ -24,7 +24,7 @@ class TestSearchController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/search',
+            '/api/v0/search',
             method='GET',
             headers=headers,
             query_string=query_string)

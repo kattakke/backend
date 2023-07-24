@@ -24,7 +24,7 @@ class TestBookController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/books/{book_id}'.format(book_id='book_id_example'),
+            '/api/v0/books/{book_id}'.format(book_id='book_id_example'),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -39,7 +39,7 @@ class TestBookController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/books/{book_id}'.format(book_id='book_id_example'),
+            '/api/v0/books/{book_id}'.format(book_id='book_id_example'),
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -56,7 +56,7 @@ class TestBookController(BaseTestCase):
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/books/{book_id}'.format(book_id='book_id_example'),
+            '/api/v0/books/{book_id}'.format(book_id='book_id_example'),
             method='PATCH',
             headers=headers,
             data=json.dumps(post_book_request),
@@ -75,7 +75,7 @@ class TestBookController(BaseTestCase):
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/books',
+            '/api/v0/books',
             method='POST',
             headers=headers,
             data=json.dumps(post_book_request),

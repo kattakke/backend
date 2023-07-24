@@ -24,7 +24,7 @@ class TestUserController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/users/{user_id}'.format(user_id='user_id_example'),
+            '/api/v0/users/{user_id}'.format(user_id='user_id_example'),
             method='DELETE',
             headers=headers)
         self.assert200(response,
@@ -39,7 +39,7 @@ class TestUserController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/users/{user_id}'.format(user_id='user_id_example'),
+            '/api/v0/users/{user_id}'.format(user_id='user_id_example'),
             method='GET',
             headers=headers)
         self.assert200(response,
@@ -57,7 +57,7 @@ class TestUserController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/users/{user_id}/shelf'.format(user_id='user_id_example'),
+            '/api/v0/users/{user_id}/shelf'.format(user_id='user_id_example'),
             method='GET',
             headers=headers,
             query_string=query_string)
@@ -73,7 +73,7 @@ class TestUserController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/users/{user_id}'.format(user_id='user_id_example'),
+            '/api/v0/users/{user_id}'.format(user_id='user_id_example'),
             method='PATCH',
             headers=headers)
         self.assert200(response,
@@ -90,7 +90,7 @@ class TestUserController(BaseTestCase):
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/users',
+            '/api/v0/users',
             method='POST',
             headers=headers,
             data=json.dumps(auth_login_request),

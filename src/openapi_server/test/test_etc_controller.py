@@ -22,7 +22,7 @@ class TestEtcController(BaseTestCase):
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v3/health',
+            '/api/v0/health',
             method='GET',
             headers=headers)
         self.assert200(response,
