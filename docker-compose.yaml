@@ -1,0 +1,35 @@
+version: '3.6'
+services:
+  database:
+      container_name: kattakke_db
+      build: ./database
+      ports:
+        - "5432:5432" 
+      volumes:
+        - ./database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      environment:
+        - POSTGRES_USER=kattakke
+        - POSTGRES_PASSWORD=kattakke
+        - POSTGRES-DATABASE=kattakke
+        - DATABASE_HOST=localhost
+      restart: always
+  
+  app:
+    build:
+      context: ./src
+    container_name: kattakke_app
+    depends_on: 
+      - database
+    entrypoint: ["python3", "-m", "openapi_server"]
+
+  nginx:
+    container_name: kattakke_nginx
+    build:
+      context: ./nginx
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/html:/etc/nginx/html
+    ports:
+      - "80:80"
+    depends_on:
+      - app
