@@ -5,12 +5,12 @@ from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
 global session
-class User(Base):
+class DBUser(Base):
     __tablename__ = 'users'
     userId = Column(UUID, primary_key=True,
                        server_default=text('gen_random_uuid()'))
     name = Column(VARCHAR, nullable=False)
-    password = Column(CHAR(60), nullable=False)
+    password = Column(VARCHAR, nullable=False)
     jwt_secret = Column(VARCHAR, nullable=False)
     shelf = Column(UUID, nullable=False, server_default=text('gen_random_uuid()'))
     createdAt = Column(TIMESTAMP, nullable=False, server_default=text(
@@ -20,7 +20,7 @@ class User(Base):
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
     
-class Shelf(Base):
+class DBShelf(Base):
     __tablename__ = 'shelves'
     shelfId = Column(UUID, primary_key=True)
     book = Column(UUID, nullable=False)
@@ -31,7 +31,7 @@ class Shelf(Base):
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
-class Book(Base):
+class DBBook(Base):
     __tablename__ = 'books'
     bookId = Column(UUID, primary_key=True, 
                        server_default=text('gen_random_uuid()'))
