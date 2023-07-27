@@ -20,6 +20,9 @@ services:
     container_name: kattakke_app
     depends_on: 
       - database
+    restart: always
+    environment:
+      - POSTGRESQL_HOST=database
     entrypoint: ["python3", "-m", "openapi_server"]
 
   nginx:
@@ -33,3 +36,4 @@ services:
       - "80:80"
     depends_on:
       - app
+      
