@@ -8,7 +8,9 @@ from openapi_server.models.api_response import ApiResponse  # noqa: E501
 from openapi_server.models.auth_login_request import AuthLoginRequest  # noqa: E501
 from openapi_server.models.user import User  # noqa: E501
 from openapi_server import util
-
+from db.models import Session, DBUser
+import bcrypt
+from sqlalchemy.sql import exists
 
 def delete_user_info(user_id):  # noqa: E501
     """delete user info
@@ -80,4 +82,16 @@ def user_register(auth_login_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         auth_login_request = AuthLoginRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    session = Session()
+    if session.query(exists().where(DBUser.name == auth_login_request.id)).scalar() > 0:
+        return (ApiResponse(code="500", type="string", message="Already Exist"), 500)
+    else:
+        user = DBUser()
+        user.name = auth_login_request.id
+        salt = bcrypt.gensalt(rounds=10, prefix=b'2a')
+        user.password = str(bcrypt.hashpw(bytes(auth_login_request.password, "utf-8"), salt))
+        user.jwt_secret = ""
+        session.add(user)
+        session.commit()
+        return ApiResponse(code="200", type="string", message="OK")
+        return 'do some magic!'
