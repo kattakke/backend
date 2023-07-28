@@ -8,6 +8,12 @@ from openapi_server.models.api_response import ApiResponse  # noqa: E501
 from openapi_server.models.auth_login_request import AuthLoginRequest  # noqa: E501
 from openapi_server import util
 
+from db.models import Session, DBUser
+import bcrypt
+from sqlalchemy.sql import exists
+import secrets
+import jwt
+
 
 def auth_login(auth_login_request=None):  # noqa: E501
     """Returns me
@@ -21,7 +27,23 @@ def auth_login(auth_login_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         auth_login_request = AuthLoginRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    
+    session = Session()
+    if session.query(exists().where(DBUser.name == auth_login_request.id)).scalar() > 0:
+        user = session.query(DBUser).filter(DBUser.name == auth_login_request.id).first()
+        if bcrypt.checkpw(auth_login_request.password.encode('utf8'), user.password.encode('utf8')):
+            user.jwt_secret = secrets.token_urlsafe(16)
+            session.commit()
+            payload = {
+                "id": str(user.userId),
+                "name": user.name,
+                "shelf": str(user.shelf),
+                "permission": "User"
+            }
+            token = jwt.encode(payload, user.jwt_secret)
+            return ApiResponse(code="200", type="string", message=token)
+    else:
+        return ApiResponse(code="401", type="string", message="Unauthorized"), 401
 
 
 def auth_logout():  # noqa: E501
