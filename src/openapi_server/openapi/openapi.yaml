@@ -55,6 +55,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
           description: successful operation
+      security:
+      - bearerAuth: []
       summary: logout
       tags:
       - auth
@@ -70,6 +72,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
           description: successful operation
+      security:
+      - bearerAuth: []
       summary: Returns me
       tags:
       - auth
@@ -501,3 +505,9 @@ components:
           type: string
       title: postBook_request
       type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: openapi_server.controllers.security_controller_.info_from_bearerAuth
