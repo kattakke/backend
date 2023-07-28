@@ -46,7 +46,7 @@ def auth_login(auth_login_request=None):  # noqa: E501
         return ApiResponse(code="401", type="string", message="Unauthorized"), 401
 
 
-def auth_logout():  # noqa: E501
+def auth_logout(token_info):  # noqa: E501
     """logout
 
     logout # noqa: E501
@@ -54,10 +54,16 @@ def auth_logout():  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    session = Session()
+    if session.query(exists().where(DBUser.userId == token_info['id'])).scalar() > 0:
+        user = session.query(DBUser).filter(DBUser.userId == token_info['id']).first()
+        user.jwt_secret = ""
+        session.commit()
+    
+    return ApiResponse(200, "string", "OK")
 
 
-def auth_me():  # noqa: E501
+def auth_me(token_info):  # noqa: E501
     """Returns me
 
     Returns me # noqa: E501
@@ -65,4 +71,4 @@ def auth_me():  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    return ApiResponse(200, "string", "OK")
