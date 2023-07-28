@@ -89,9 +89,8 @@ def user_register(auth_login_request=None):  # noqa: E501
         user = DBUser()
         user.name = auth_login_request.id
         salt = bcrypt.gensalt(rounds=10, prefix=b'2a')
-        user.password = str(bcrypt.hashpw(bytes(auth_login_request.password, "utf-8"), salt))
+        user.password = bcrypt.hashpw(bytes(auth_login_request.password, "utf-8"), salt).decode('utf8')
         user.jwt_secret = ""
         session.add(user)
         session.commit()
         return ApiResponse(code="200", type="string", message="OK")
-        return 'do some magic!'
