@@ -33,6 +33,7 @@ def get_search_book(title: str=None, isbn: str=None):  # noqa: E501
     # create session
     session = Session()
 
+
     # check if book which has that isbn exists...
     if session.query(exists().where(DBBook.isbn == isbn)).scalar() > 0:
         # print("本あったよ")
