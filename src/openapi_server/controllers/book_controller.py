@@ -56,7 +56,7 @@ def patch_book_info(book_id, post_book_request=None):  # noqa: E501
     return 'do some magic!'
 
 
-def post_book(post_book_request: PostBookRequest=None):  # noqa: E501
+def post_book(post_book_request=None):  # noqa: E501
     """post book info
 
     post book info # noqa: E501
@@ -70,25 +70,33 @@ def post_book(post_book_request: PostBookRequest=None):  # noqa: E501
     # requires PostBookRequest with title, author, isbn, 
     # and adds the book to the db. (planning)
 
-    book = {}
-    book['title'] = post_book_request.title()
-    book['author'] = post_book_request.author()
-    book['isbn'] = post_book_request.isbn()
-
+    book = Book(title=None, isbn=None, author=None)
     session = Session()
 
-    if session.query(exists().where(DBBook.isbn == post_book_request.isbn())).scalar() > 0:
-        return (book, 500)
+    # if both 'book' and 'post_book_request' are None,
+    # returns None (hence {}) and code 500 instead.
+    # if any attribute of post_book_request is None,
+    # returns book with "... not specified" and code 200 instead.
+    # if the same book exists on the db,
+    # returns book and code 500.
+    if not post_book_request == None:
+        book.title = post_book_request.title() or "title not specified"
+        book.author = post_book_request.author() or "author not specified"
+        book.isbn = post_book_request.isbn() or "isbn not specified"
+        if session.query(exists().where(DBBook.isbn == post_book_request.isbn())).scalar() > 0:
+            # print('the book already exists on db')
+            return (book, 500)
+        else:
+            dbbook = DBBook()
+            dbbook.title = book.title
+            dbbook.author = book.author
+            dbbook.isbn = book.isbn
+
+            session.add(dbbook)
+            session.commit()
+            return (book, 200)
     else:
-        dbbook = DBBook()
-        dbbook.title = book['title']
-        dbbook.author = book['author']
-        dbbook.isbn = book['isbn']
-
-        session.add(dbbook)
-        session.commit()
-
-    return (book, 200)
+        return (book, 500)
 
     # if connexion.request.is_json:
     #     post_book_request = PostBookRequest.from_dict(connexion.request.get_json())  # noqa: E501
