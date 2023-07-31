@@ -23,7 +23,21 @@ def delete_book_info(book_id):  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
-    return 'do some magic!'
+
+
+    # the same function available more simply with `filtered_by()`
+    # but not preferred in team development.
+    (book, code) = get_book_info(book_id)
+
+    if code == 200:
+        session = Session()
+        the_book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
+        session.delete(the_book)
+    elif code == 500:
+        return ApiResponse(code="500", type="string", message="book not found")
+    
+    return ApiResponse(code="200", type="string", message="OK")
+    # return 'do some magic!'
 
 
 def get_book_info(book_id):  # noqa: E501
@@ -36,7 +50,24 @@ def get_book_info(book_id):  # noqa: E501
 
     :rtype: Union[Book, Tuple[Book, int], Tuple[Book, int, Dict[str, str]]
     """
-    return 'do some magic!'
+
+    book = Book()
+    session = Session()
+
+    if session.query(exists().where(DBBook.bookId == book_id)).scalar() > 0:
+        dbbook = DBBook()
+        the_book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
+        book.title = the_book.title
+        book.author = the_book.author
+        book.isbn = the_book.isbn
+        return (book, 200)
+    else:
+        book.title = None
+        book.author = None
+        book.isbn = None
+        
+        return (book, 500)
+    # return 'do some magic!'
 
 
 def patch_book_info(book_id, post_book_request=None):  # noqa: E501
