@@ -70,7 +70,7 @@ def get_book_info(book_id):  # noqa: E501
     # return 'do some magic!'
 
 
-def patch_book_info(book_id, post_book_request=None):  # noqa: E501
+def patch_book_info(book_id, post_book_request: PostBookRequest=None):  # noqa: E501
     """patch book info
 
     patch book info # noqa: E501
@@ -100,6 +100,9 @@ def post_book(post_book_request=None):  # noqa: E501
 
     # requires PostBookRequest with title, author, isbn, 
     # and adds the book to the db. (planning)
+
+    if connexion.request.is_json:
+        post_book_request = PostBookRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
     book = Book(title=None, isbn=None, author=None)
     session = Session()
