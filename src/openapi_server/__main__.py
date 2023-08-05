@@ -18,12 +18,13 @@ def main():
                 arguments={'title': 'Swagger Kattakke - OpenAPI 3.0'},
                 pythonic_params=True)
     # SQLALCHEMY_DATABASE_URI = "sqlite://:memory"
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://{user}:{password}@{host}/{name}'.format(**{
+    
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql+psycopg2://{user}:{password}@{host}/{name}'.format(**{
         'user': 'kattakke',
         'password': 'kattakke',
         'host': os.getenv('POSTGRESQL_HOST', '127.0.0.1'),
         'name': 'kattakke'
-    })
+    }))
     db.models.init_db(SQLALCHEMY_DATABASE_URI)
 
     app.run(port=8080)
