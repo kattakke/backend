@@ -70,7 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/User'
           description: successful operation
       security:
       - bearerAuth: []
@@ -309,6 +309,11 @@ paths:
           format: UUID
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/authLogin_request'
       responses:
         "200":
           content:
