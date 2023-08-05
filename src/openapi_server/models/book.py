@@ -15,11 +15,11 @@ class Book(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, bookd_id=None, isbn=None, title=None, author=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, book_id=None, isbn=None, title=None, author=None, created_at=None, updated_at=None):  # noqa: E501
         """Book - a model defined in OpenAPI
 
-        :param bookd_id: The bookd_id of this Book.  # noqa: E501
-        :type bookd_id: str
+        :param book_id: The book_id of this Book.  # noqa: E501
+        :type book_id: str
         :param isbn: The isbn of this Book.  # noqa: E501
         :type isbn: str
         :param title: The title of this Book.  # noqa: E501
@@ -32,7 +32,7 @@ class Book(Model):
         :type updated_at: datetime
         """
         self.openapi_types = {
-            'bookd_id': str,
+            'book_id': str,
             'isbn': str,
             'title': str,
             'author': str,
@@ -41,7 +41,7 @@ class Book(Model):
         }
 
         self.attribute_map = {
-            'bookd_id': 'bookdId',
+            'book_id': 'bookId',
             'isbn': 'isbn',
             'title': 'title',
             'author': 'author',
@@ -49,7 +49,7 @@ class Book(Model):
             'updated_at': 'updatedAt'
         }
 
-        self._bookd_id = bookd_id
+        self._book_id = book_id
         self._isbn = isbn
         self._title = title
         self._author = author
@@ -68,25 +68,25 @@ class Book(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def bookd_id(self):
-        """Gets the bookd_id of this Book.
+    def book_id(self):
+        """Gets the book_id of this Book.
 
 
-        :return: The bookd_id of this Book.
+        :return: The book_id of this Book.
         :rtype: str
         """
-        return self._bookd_id
+        return self._book_id
 
-    @bookd_id.setter
-    def bookd_id(self, bookd_id):
-        """Sets the bookd_id of this Book.
+    @book_id.setter
+    def book_id(self, book_id):
+        """Sets the book_id of this Book.
 
 
-        :param bookd_id: The bookd_id of this Book.
-        :type bookd_id: str
+        :param book_id: The book_id of this Book.
+        :type book_id: str
         """
 
-        self._bookd_id = bookd_id
+        self._book_id = book_id
 
     @property
     def isbn(self):

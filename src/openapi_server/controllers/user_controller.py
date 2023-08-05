@@ -85,7 +85,7 @@ def get_user_shelf(user_id, title=None, tag=None, isbn=None):  # noqa: E501
          
 
 
-def patch_user_info(user_id):  # noqa: E501
+def patch_user_info(user_id, token_info):  # noqa: E501
     """patch user info
 
     patch user info # noqa: E501
