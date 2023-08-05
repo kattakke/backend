@@ -12,7 +12,7 @@ from db.models import Session, DBUser, DBBook, DBShelf
 import bcrypt
 from sqlalchemy.sql import exists
 
-def delete_user_info(user_id):  # noqa: E501
+def delete_user_info(user_id, token_info = None):  # noqa: E501
     """delete user info
 
     delete user info # noqa: E501
@@ -22,7 +22,16 @@ def delete_user_info(user_id):  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    session = Session()
+    if token_info["permission"] == "Admin" or user_id == token_info["id"]:
+        if session.query(exists().where(DBUser.userId == user_id)).scalar() > 0:
+            user = session.query(DBUser).filter(DBUser.userId == user_id).first()
+            session.delete(user)
+            session.commit()
+            return ApiResponse(code="200", type="string", message="OK")
+        else:
+            return (ApiResponse(code="404", type="string", message="Not Found"), 404)
+
 
 
 def get_user_info(user_id):  # noqa: E501
