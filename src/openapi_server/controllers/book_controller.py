@@ -22,7 +22,13 @@ def delete_book_info(book_id):  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    session = Session()
+    if session.query(exists().where(DBBook.bookId == book_id)).scalar() > 0:
+            book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
+            session.delete(book)
+            session.commit()
+    else:
+         return (ApiResponse(code="404", type="string", message="Not Found"), 404)
 
 
 def get_book_info(book_id):  # noqa: E501
