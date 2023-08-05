@@ -9,6 +9,8 @@ from openapi_server.models.book import Book  # noqa: E501
 from openapi_server.models.post_book_request import PostBookRequest  # noqa: E501
 from openapi_server import util
 
+from db.models import Session, DBBook, DBShelf
+from sqlalchemy.sql import exists
 
 def delete_book_info(book_id):  # noqa: E501
     """delete book info
@@ -20,7 +22,13 @@ def delete_book_info(book_id):  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
-    return 'do some magic!'
+    session = Session()
+    if session.query(exists().where(DBBook.bookId == book_id)).scalar() > 0:
+            book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
+            session.delete(book)
+            session.commit()
+    else:
+         return (ApiResponse(code="404", type="string", message="Not Found"), 404)
 
 
 def get_book_info(book_id):  # noqa: E501
@@ -33,8 +41,14 @@ def get_book_info(book_id):  # noqa: E501
 
     :rtype: Union[Book, Tuple[Book, int], Tuple[Book, int, Dict[str, str]]
     """
-    return 'do some magic!'
-
+    session = Session()
+    if session.query(exists().where(DBBook.bookId == book_id)).scalar() > 0:
+            book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
+            return Book(book_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author)
+    else:
+         return (ApiResponse(code="404", type="string", message="Not Found"), 404)
+         
+        
 
 def patch_book_info(book_id, post_book_request=None):  # noqa: E501
     """patch book info
@@ -50,10 +64,20 @@ def patch_book_info(book_id, post_book_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         post_book_request = PostBookRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    session = Session()
+    if session.query(exists().where(DBBook.bookId == book_id)).scalar() > 0:
+            book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
+            book.isbn = post_book_request.isbn
+            book.title = post_book_request.title
+            book.author = post_book_request.author
+            session.commit()
+            return Book(book_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author)
+    else:
+         return (ApiResponse(code="404", type="string", message="Not Found"), 404)
+    
 
 
-def post_book(post_book_request=None):  # noqa: E501
+def post_book(post_book_request=None, token_info = None):  # noqa: E501
     """post book info
 
     post book info # noqa: E501
@@ -65,4 +89,20 @@ def post_book(post_book_request=None):  # noqa: E501
     """
     if connexion.request.is_json:
         post_book_request = PostBookRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+
+    session = Session()
+
+    book = DBBook()
+    book.isbn = post_book_request.isbn
+    book.title = post_book_request.title
+    book.author = post_book_request.author
+    session.add(book)
+    session.commit()
+
+    shelf = DBShelf()
+    shelf.shelfId = token_info["shelf"]
+    shelf.book = book.bookId
+    session.add(shelf)
+    session.commit()
+    return Book(book_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author)
+

@@ -70,7 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                $ref: '#/components/schemas/User'
           description: successful operation
       security:
       - bearerAuth: []
@@ -94,6 +94,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Book'
           description: successful operation
+      security:
+      - bearerAuth: []
       summary: post book info
       tags:
       - book
@@ -264,6 +266,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
           description: successful operation
+      security:
+      - bearerAuth: []
       summary: delete user info
       tags:
       - user
@@ -305,6 +309,11 @@ paths:
           format: UUID
           type: string
         style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/authLogin_request'
       responses:
         "200":
           content:
@@ -312,6 +321,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
           description: successful operation
+      security:
+      - bearerAuth: []
       summary: patch user info
       tags:
       - user
@@ -375,13 +386,13 @@ components:
         createdAt: 2000-01-23T04:56:07.000+00:00
         author: author
         isbn: isbn
-        bookdId: bookdId
         title: title
+        bookId: bookId
         updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
-        bookdId:
+        bookId:
           format: UUID
-          title: bookdId
+          title: bookId
           type: string
         isbn:
           nullable: true
