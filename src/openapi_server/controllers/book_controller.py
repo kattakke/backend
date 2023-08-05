@@ -44,7 +44,7 @@ def get_book_info(book_id):  # noqa: E501
     session = Session()
     if session.query(exists().where(DBBook.bookId == book_id)).scalar() > 0:
             book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
-            return Book(bookd_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author)
+            return Book(book_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author)
     else:
          return (ApiResponse(code="404", type="string", message="Not Found"), 404)
          
@@ -71,7 +71,7 @@ def patch_book_info(book_id, post_book_request=None):  # noqa: E501
             book.title = post_book_request.title
             book.author = post_book_request.author
             session.commit()
-            return Book(bookd_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author)
+            return Book(book_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author)
     else:
          return (ApiResponse(code="404", type="string", message="Not Found"), 404)
     
@@ -104,5 +104,5 @@ def post_book(post_book_request=None, token_info = None):  # noqa: E501
     shelf.book = book.bookId
     session.add(shelf)
     session.commit()
-    return Book(bookd_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author)
+    return Book(book_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author)
 
