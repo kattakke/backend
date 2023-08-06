@@ -22,11 +22,13 @@ def delete_book_info(book_id):  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
+
     session = Session()
     if session.query(exists().where(DBBook.bookId == book_id)).scalar() > 0:
             book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
             session.delete(book)
             session.commit()
+            return ApiResponse(code="200", type="string", message="OK")
     else:
          return (ApiResponse(code="404", type="string", message="Not Found"), 404)
 
@@ -87,6 +89,10 @@ def post_book(post_book_request=None, token_info = None):  # noqa: E501
 
     :rtype: Union[Book, Tuple[Book, int], Tuple[Book, int, Dict[str, str]]
     """
+
+    # requires PostBookRequest with title, author, isbn, 
+    # and adds the book to the db. (planning)
+
     if connexion.request.is_json:
         post_book_request = PostBookRequest.from_dict(connexion.request.get_json())  # noqa: E501
 

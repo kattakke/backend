@@ -45,15 +45,16 @@ def get_search_book(title: str=None, isbn: str=None):  # noqa: E501
         # return (PostBookRequest(isbn=books[0]['isbn'], title=books[0]['title'], author=books[0]['author']), 200)
         return (PostBookRequest(isbn=isbn_, title=title_, author=author_), 200)
     if not isbn == None:
-        url = f'https://api.openbd.jp/v1/get?isbn={isbn}'
+        url = f'https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}'
         # search book from isbn
 
         r = requests.get(url)
+        book_ = r.json()['items'][0]
 
-        title_ = r.json()[0]['summary']['title']
-        author_ = r.json()[0]['summary']['author']
-        isbn_ = r.json()[0]['summary']['isbn']
-        return (PostBookRequest(isbn=isbn_, title=title_, author=author_), 200)
+        title_ = book_['volumeInfo']['title']
+        isbn_ = book_['volumeInfo']['industryIdentifiers'][0]['identifier']
+        author_  = book_['volumeInfo']['authors'][0]
+        return (PostBookRequest(isbn=isbn, title=title_, author=author_), 200)
     # if session.query(exists().where(DBBook.isbn == isbn)).scalar() > 0:
     #     # print("本あったよ")
     #     books = session.query(DBBook.query.filter(DBBook.isbn == isbn)).all()
