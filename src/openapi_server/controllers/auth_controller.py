@@ -6,6 +6,7 @@ from typing import Union
 
 from openapi_server.models.api_response import ApiResponse  # noqa: E501
 from openapi_server.models.auth_login_request import AuthLoginRequest  # noqa: E501
+from openapi_server.models.user import User
 from openapi_server import util
 
 from db.models import Session, DBUser
@@ -71,4 +72,7 @@ def auth_me(token_info):  # noqa: E501
 
     :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
     """
-    return ApiResponse(200, "string", "OK")
+    session = Session()
+    if session.query(exists().where(DBUser.userId == token_info['id'])).scalar() > 0:
+        user = session.query(DBUser).filter(DBUser.userId == token_info['id']).first()
+        return User(user_id=user.userId, name=user.name, shelf=user.shelf)

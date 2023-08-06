@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, DateTime, String, UUID, text, VARCHAR, CHAR, TIMESTAMP
+from sqlalchemy import create_engine, Column, DateTime, String, UUID, text, VARCHAR, CHAR, TIMESTAMP, ForeignKey
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -22,8 +22,10 @@ class DBUser(Base):
     
 class DBShelf(Base):
     __tablename__ = 'shelves'
-    shelfId = Column(UUID, primary_key=True)
-    book = Column(UUID, nullable=False)
+    id = Column(UUID, primary_key=True,
+                       server_default=text('gen_random_uuid()'))
+    shelfId = Column(UUID)
+    book = Column(UUID, ForeignKey("books.bookId"))
     createdAt = Column(TIMESTAMP, nullable=False, server_default=text(
         'CURRENT_TIMESTAMP'))
     updatedAt = Column(TIMESTAMP, nullable=False, server_default=text(
