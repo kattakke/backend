@@ -12,7 +12,7 @@ import db.models
 
 def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
-    app.app.json_encoder = encoder.JSONEncoder
+    app.app.json = encoder.JSONEncoder
     app.app.config['JSON_AS_ASCII'] = False
     app.add_api('openapi.yaml',
                 arguments={'title': 'Swagger Kattakke - OpenAPI 3.0'},
