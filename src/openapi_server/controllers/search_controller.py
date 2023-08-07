@@ -56,7 +56,7 @@ def get_search_book(title: str=None, isbn: str=None):  # noqa: E501
         isbn_ = book_['volumeInfo']['industryIdentifiers'][0]['identifier']
         author_  = book_['volumeInfo']['authors'][0]
         image_path_ = book_['volumeInfo']['imageLinks']['thumbnail']
-        return (Book(isbn=isbn, title=title_, author=author_, image_path=image_path_), 200)
+        return (Book(isbn=isbn_, title=title_, author=author_, image_path=image_path_), 200)
     # if session.query(exists().where(DBBook.isbn == isbn)).scalar() > 0:
     #     # print("本あったよ")
     #     books = session.query(DBBook.query.filter(DBBook.isbn == isbn)).all()
