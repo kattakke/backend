@@ -15,7 +15,7 @@ class PostBookRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, isbn=None, title=None, author=None):  # noqa: E501
+    def __init__(self, isbn=None, title=None, author=None, image_path=None):  # noqa: E501
         """PostBookRequest - a model defined in OpenAPI
 
         :param isbn: The isbn of this PostBookRequest.  # noqa: E501
@@ -24,22 +24,27 @@ class PostBookRequest(Model):
         :type title: str
         :param author: The author of this PostBookRequest.  # noqa: E501
         :type author: str
+        :param image_path: The image_path of this PostBookRequest.  # noqa: E501
+        :type image_path: str
         """
         self.openapi_types = {
             'isbn': str,
             'title': str,
-            'author': str
+            'author': str,
+            'image_path': str
         }
 
         self.attribute_map = {
             'isbn': 'isbn',
             'title': 'title',
-            'author': 'author'
+            'author': 'author',
+            'image_path': 'imagePath'
         }
 
         self._isbn = isbn
         self._title = title
         self._author = author
+        self._image_path = image_path
 
     @classmethod
     def from_dict(cls, dikt) -> 'PostBookRequest':
@@ -114,3 +119,24 @@ class PostBookRequest(Model):
         """
 
         self._author = author
+
+    @property
+    def image_path(self):
+        """Gets the image_path of this PostBookRequest.
+
+
+        :return: The image_path of this PostBookRequest.
+        :rtype: str
+        """
+        return self._image_path
+
+    @image_path.setter
+    def image_path(self, image_path):
+        """Sets the image_path of this PostBookRequest.
+
+
+        :param image_path: The image_path of this PostBookRequest.
+        :type image_path: str
+        """
+
+        self._image_path = image_path

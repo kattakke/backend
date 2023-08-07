@@ -219,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/postBook_request'
+                $ref: '#/components/schemas/Book'
           description: successful operation
       summary: search book
       tags:
@@ -385,6 +385,7 @@ components:
       example:
         createdAt: 2000-01-23T04:56:07.000+00:00
         author: author
+        imagePath: imagePath
         isbn: isbn
         title: title
         bookId: bookId
@@ -412,6 +413,9 @@ components:
         updatedAt:
           format: date-time
           title: updatedAt
+          type: string
+        imagePath:
+          title: imagePath
           type: string
       title: Book
       type: object
@@ -500,10 +504,6 @@ components:
       title: authLogin_request
       type: object
     postBook_request:
-      example:
-        author: author
-        isbn: isbn
-        title: title
       properties:
         isbn:
           title: isbn
@@ -513,6 +513,9 @@ components:
           type: string
         author:
           title: author
+          type: string
+        imagePath:
+          title: imagePath
           type: string
       title: postBook_request
       type: object

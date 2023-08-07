@@ -15,7 +15,7 @@ class Book(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, book_id=None, isbn=None, title=None, author=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, book_id=None, isbn=None, title=None, author=None, created_at=None, updated_at=None, image_path=None):  # noqa: E501
         """Book - a model defined in OpenAPI
 
         :param book_id: The book_id of this Book.  # noqa: E501
@@ -30,6 +30,8 @@ class Book(Model):
         :type created_at: datetime
         :param updated_at: The updated_at of this Book.  # noqa: E501
         :type updated_at: datetime
+        :param image_path: The image_path of this Book.  # noqa: E501
+        :type image_path: str
         """
         self.openapi_types = {
             'book_id': str,
@@ -37,7 +39,8 @@ class Book(Model):
             'title': str,
             'author': str,
             'created_at': datetime,
-            'updated_at': datetime
+            'updated_at': datetime,
+            'image_path': str
         }
 
         self.attribute_map = {
@@ -46,7 +49,8 @@ class Book(Model):
             'title': 'title',
             'author': 'author',
             'created_at': 'createdAt',
-            'updated_at': 'updatedAt'
+            'updated_at': 'updatedAt',
+            'image_path': 'imagePath'
         }
 
         self._book_id = book_id
@@ -55,6 +59,7 @@ class Book(Model):
         self._author = author
         self._created_at = created_at
         self._updated_at = updated_at
+        self._image_path = image_path
 
     @classmethod
     def from_dict(cls, dikt) -> 'Book':
@@ -192,3 +197,24 @@ class Book(Model):
         """
 
         self._updated_at = updated_at
+
+    @property
+    def image_path(self):
+        """Gets the image_path of this Book.
+
+
+        :return: The image_path of this Book.
+        :rtype: str
+        """
+        return self._image_path
+
+    @image_path.setter
+    def image_path(self, image_path):
+        """Sets the image_path of this Book.
+
+
+        :param image_path: The image_path of this Book.
+        :type image_path: str
+        """
+
+        self._image_path = image_path

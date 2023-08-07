@@ -41,6 +41,7 @@ class DBBook(Base):
     title = Column(VARCHAR, nullable=False)
     author = Column(VARCHAR, nullable=True)
     publisher = Column(VARCHAR, nullable=True)
+    imagePath = Column(VARCHAR, nullable=True)
     created_at = Column(TIMESTAMP, nullable=False, server_default=text(
         'CURRENT_TIMESTAMP'))
     updated_at = Column(TIMESTAMP, nullable=False, server_default=text(
