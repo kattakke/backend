@@ -46,7 +46,7 @@ def auth_login(auth_login_request=None):  # noqa: E501
         return None, 401
 
 
-def auth_logout(authorization, token_info):  # noqa: E501
+def auth_logout(authorization = None, token_info = None):  # noqa: E501
     """logout
 
     delete token # noqa: E501
@@ -65,7 +65,7 @@ def auth_logout(authorization, token_info):  # noqa: E501
     return None
 
 
-def auth_me(authorization, token_info):  # noqa: E501
+def auth_me(authorization = None, token_info = None):  # noqa: E501
     """Returns me
 
     get authrized user info # noqa: E501

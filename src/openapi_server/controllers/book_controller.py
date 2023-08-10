@@ -11,7 +11,7 @@ from openapi_server import util
 from db.models import Session, DBBook, DBShelf
 from sqlalchemy.sql import exists
 
-def delete_book_info(authorization, book_id):  # noqa: E501
+def delete_book_info(authorization = None, book_id = None):  # noqa: E501
     """delete book info
 
     delete book info # noqa: E501
@@ -51,7 +51,7 @@ def get_book_info(book_id):  # noqa: E501
     else:
         return None, 404
 
-def patch_book_info(authorization, book_id, token_info, post_book_request=None):  # noqa: E501
+def patch_book_info(authorization = None, book_id = None, token_info = None, post_book_request=None):  # noqa: E501
     """patch book info
 
     patch book info # noqa: E501
@@ -81,7 +81,7 @@ def patch_book_info(authorization, book_id, token_info, post_book_request=None):
     
 
 
-def post_book(authorization, post_book_request=None, token_info = None):  # noqa: E501
+def post_book(authorization = None, post_book_request=None, token_info = None):  # noqa: E501
     """post book info
 
     post book info # noqa: E501

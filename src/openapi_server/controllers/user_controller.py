@@ -13,7 +13,7 @@ import bcrypt
 from sqlalchemy.sql import exists
 from openapi_server.controllers.book_controller import get_book_info
 
-def delete_user_info(authorization, user_id, token_info = None):  # noqa: E501
+def delete_user_info(authorization = None, user_id = None, token_info = None):  # noqa: E501
     """delete user info
 
     delete user info # noqa: E501
@@ -87,7 +87,7 @@ def get_user_shelf(user_id, title=None, tag=None, isbn=None):  # noqa: E501
         return None, 404
 
 
-def patch_user_info(authorization, user_id, auth_login_request=None, token_info=None):  # noqa: E501
+def patch_user_info(authorization = None, user_id = None, auth_login_request=None, token_info=None):  # noqa: E501
     """patch user info
 
     patch user info # noqa: E501

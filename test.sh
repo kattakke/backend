@@ -2,7 +2,7 @@
 
 echo "Register Test"
 
-curl -X "POST" \
+curl -i -X "POST" \
   "${kattakke_host}/api/v0/users" \
   -H "accept: application/json" \
   -H "Content-Type: application/json" \
@@ -20,7 +20,7 @@ token=$(curl -X "POST" \
   -d '{
   "id": "string",
   "password": "string"
-}'  | python3 -c 'import sys, json; print(json.load(sys.stdin)["message"])')
+}')
 
 echo "JWT Toekn: ${token}"
 
@@ -53,7 +53,7 @@ token=$(curl -X "POST" \
   -d '{
   "id": "string",
   "password": "string"
-}'  | python3 -c 'import sys, json; print(json.load(sys.stdin)["message"])')
+}')
 
 echo "JWT Toekn: ${token}"
 
@@ -72,7 +72,7 @@ curl -X "GET" \
   -H "Authorization: Bearer ${token}"
 
 echo "User DELETE Test 3"
-curl -X "POST" \
+curl -i -X "POST" \
   "${kattakke_host}/api/v0/auth/login" \
   -H "accept: application/json" \
   -H "Content-Type: application/json" \
@@ -83,7 +83,7 @@ curl -X "POST" \
 
 echo "Register New User"
 
-curl -X "POST" \
+curl -i -X "POST" \
   "${kattakke_host}/api/v0/users" \
   -H "accept: application/json" \
   -H "Content-Type: application/json" \
@@ -101,7 +101,7 @@ token=$(curl -X "POST" \
   -d '{
   "id": "string",
   "password": "string"
-}'  | python3 -c 'import sys, json; print(json.load(sys.stdin)["message"])')
+}')
 
 echo "JWT Toekn: ${token}"
 
@@ -169,6 +169,7 @@ curl -X "GET" \
 curl -X "PATCH" \
   "${kattakke_host}/api/v0/books/${bookid}" \
   -H "accept: application/json" \
+  -H "Authorization: Bearer ${token}" \
   -H "Content-Type: application/json" \
   -d '{
   "isbn": "123412341237",
