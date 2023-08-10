@@ -15,11 +15,11 @@ class Book(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, bookd_id=None, isbn=None, title=None, author=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, book_id=None, isbn=None, title=None, author=None, created_at=None, updated_at=None, image_path=None):  # noqa: E501
         """Book - a model defined in OpenAPI
 
-        :param bookd_id: The bookd_id of this Book.  # noqa: E501
-        :type bookd_id: str
+        :param book_id: The book_id of this Book.  # noqa: E501
+        :type book_id: str
         :param isbn: The isbn of this Book.  # noqa: E501
         :type isbn: str
         :param title: The title of this Book.  # noqa: E501
@@ -30,31 +30,36 @@ class Book(Model):
         :type created_at: datetime
         :param updated_at: The updated_at of this Book.  # noqa: E501
         :type updated_at: datetime
+        :param image_path: The image_path of this Book.  # noqa: E501
+        :type image_path: str
         """
         self.openapi_types = {
-            'bookd_id': str,
+            'book_id': str,
             'isbn': str,
             'title': str,
             'author': str,
             'created_at': datetime,
-            'updated_at': datetime
+            'updated_at': datetime,
+            'image_path': str
         }
 
         self.attribute_map = {
-            'bookd_id': 'bookdId',
+            'book_id': 'bookId',
             'isbn': 'isbn',
             'title': 'title',
             'author': 'author',
             'created_at': 'createdAt',
-            'updated_at': 'updatedAt'
+            'updated_at': 'updatedAt',
+            'image_path': 'imagePath'
         }
 
-        self._bookd_id = bookd_id
+        self._book_id = book_id
         self._isbn = isbn
         self._title = title
         self._author = author
         self._created_at = created_at
         self._updated_at = updated_at
+        self._image_path = image_path
 
     @classmethod
     def from_dict(cls, dikt) -> 'Book':
@@ -68,25 +73,25 @@ class Book(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def bookd_id(self):
-        """Gets the bookd_id of this Book.
+    def book_id(self):
+        """Gets the book_id of this Book.
 
 
-        :return: The bookd_id of this Book.
+        :return: The book_id of this Book.
         :rtype: str
         """
-        return self._bookd_id
+        return self._book_id
 
-    @bookd_id.setter
-    def bookd_id(self, bookd_id):
-        """Sets the bookd_id of this Book.
+    @book_id.setter
+    def book_id(self, book_id):
+        """Sets the book_id of this Book.
 
 
-        :param bookd_id: The bookd_id of this Book.
-        :type bookd_id: str
+        :param book_id: The book_id of this Book.
+        :type book_id: str
         """
 
-        self._bookd_id = bookd_id
+        self._book_id = book_id
 
     @property
     def isbn(self):
@@ -192,3 +197,24 @@ class Book(Model):
         """
 
         self._updated_at = updated_at
+
+    @property
+    def image_path(self):
+        """Gets the image_path of this Book.
+
+
+        :return: The image_path of this Book.
+        :rtype: str
+        """
+        return self._image_path
+
+    @image_path.setter
+    def image_path(self, image_path):
+        """Sets the image_path of this Book.
+
+
+        :param image_path: The image_path of this Book.
+        :type image_path: str
+        """
+
+        self._image_path = image_path

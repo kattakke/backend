@@ -4,7 +4,7 @@ from typing import Dict
 from typing import Tuple
 from typing import Union
 
-from openapi_server.models.post_book_request import PostBookRequest  # noqa: E501
+from openapi_server.models.book_search import BookSearch  # noqa: E501
 from openapi_server import util
 
 
@@ -18,6 +18,6 @@ def get_search_book(title=None, isbn=None):  # noqa: E501
     :param isbn: The isbn of book
     :type isbn: str
 
-    :rtype: Union[PostBookRequest, Tuple[PostBookRequest, int], Tuple[PostBookRequest, int, Dict[str, str]]
+    :rtype: Union[BookSearch, Tuple[BookSearch, int], Tuple[BookSearch, int, Dict[str, str]]
     """
     return 'do some magic!'
