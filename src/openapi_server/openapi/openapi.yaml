@@ -17,6 +17,8 @@ servers:
 tags:
 - description: Auth
   name: auth
+- description: user
+  name: user
 - description: book
   name: book
 - description: search
@@ -26,7 +28,7 @@ tags:
 paths:
   /auth/login:
     post:
-      description: Returns me
+      description: get authorize token
       operationId: auth_login
       requestBody:
         content:
@@ -38,33 +40,47 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponse'
+                type: string
           description: successful operation
-      summary: Returns me
+      summary: get authorize token
       tags:
       - auth
       x-openapi-router-controller: openapi_server.controllers.auth_controller
   /auth/logout:
     patch:
-      description: logout
+      description: delete token
       operationId: auth_logout
+      parameters:
+      - description: bearer token
+        explode: false
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+        style: simple
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
           description: successful operation
       security:
       - bearerAuth: []
-      summary: logout
+      summary: delete token
       tags:
       - auth
       x-openapi-router-controller: openapi_server.controllers.auth_controller
   /auth/me:
     get:
-      description: Returns me
+      description: get authrized user info
       operationId: auth_me
+      parameters:
+      - description: bearer token
+        explode: false
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+        style: simple
       responses:
         "200":
           content:
@@ -74,7 +90,7 @@ paths:
           description: successful operation
       security:
       - bearerAuth: []
-      summary: Returns me
+      summary: get authrized user info
       tags:
       - auth
       x-openapi-router-controller: openapi_server.controllers.auth_controller
@@ -82,6 +98,15 @@ paths:
     post:
       description: post book info
       operationId: post_book
+      parameters:
+      - description: bearer token
+        explode: false
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+        style: simple
       requestBody:
         content:
           application/json:
@@ -105,6 +130,14 @@ paths:
       description: delete book info
       operationId: delete_book_info
       parameters:
+      - description: bearer token
+        explode: false
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+        style: simple
       - description: ID of book
         explode: false
         in: path
@@ -116,11 +149,9 @@ paths:
         style: simple
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
           description: successful operation
+      security:
+      - bearerAuth: []
       summary: delete book info
       tags:
       - book
@@ -153,6 +184,14 @@ paths:
       description: patch book info
       operationId: patch_book_info
       parameters:
+      - description: bearer token
+        explode: false
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+        style: simple
       - description: ID of book
         explode: false
         in: path
@@ -174,6 +213,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Book'
           description: successful operation
+      security:
+      - bearerAuth: []
       summary: patch book info
       tags:
       - book
@@ -184,10 +225,6 @@ paths:
       operationId: health_check
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
           description: successful operation
       summary: Health Check API
       tags:
@@ -219,7 +256,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Book'
+                $ref: '#/components/schemas/BookSearch'
           description: successful operation
       summary: search book
       tags:
@@ -227,7 +264,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.search_controller
   /users:
     post:
-      description: register
+      description: register user
       operationId: user_register
       requestBody:
         content:
@@ -235,13 +272,9 @@ paths:
             schema:
               $ref: '#/components/schemas/authLogin_request'
       responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
+        "201":
           description: successful operation
-      summary: register
+      summary: register user
       tags:
       - user
       x-openapi-router-controller: openapi_server.controllers.user_controller
@@ -250,6 +283,14 @@ paths:
       description: delete user info
       operationId: delete_user_info
       parameters:
+      - description: bearer token
+        explode: false
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+        style: simple
       - description: ID of user
         explode: false
         in: path
@@ -261,10 +302,6 @@ paths:
         style: simple
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
           description: successful operation
       security:
       - bearerAuth: []
@@ -300,6 +337,14 @@ paths:
       description: patch user info
       operationId: patch_user_info
       parameters:
+      - description: bearer token
+        explode: false
+        in: header
+        name: Authorization
+        required: true
+        schema:
+          type: string
+        style: simple
       - description: ID of user
         explode: false
         in: path
@@ -316,10 +361,6 @@ paths:
               $ref: '#/components/schemas/authLogin_request'
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiResponse'
           description: successful operation
       security:
       - bearerAuth: []
@@ -371,8 +412,7 @@ paths:
             application/json:
               schema:
                 items:
-                  format: UUID
-                  type: string
+                  $ref: '#/components/schemas/Book'
                 type: array
           description: successful operation
       summary: get user shelf
@@ -380,6 +420,16 @@ paths:
       - user
       x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
+  parameters:
+    bearerToken:
+      description: bearer token
+      explode: false
+      in: header
+      name: Authorization
+      required: true
+      schema:
+        type: string
+      style: simple
   schemas:
     Book:
       example:
@@ -419,15 +469,34 @@ components:
           type: string
       title: Book
       type: object
+    BookSearch:
+      example:
+        author: author
+        imagePath: imagePath
+        isbn: isbn
+        title: title
+      properties:
+        isbn:
+          nullable: true
+          title: isbn
+          type: string
+        title:
+          title: title
+          type: string
+        author:
+          nullable: true
+          title: author
+          type: string
+        imagePath:
+          title: imagePath
+          type: string
+      title: BookSearch
+      type: object
     User:
       example:
-        createdAt: 2000-01-23T04:56:07.000+00:00
-        password: password
-        jwt-secret: jwt-secret
         name: name
         userId: userId
         shelf: shelf
-        updatedAt: 2000-01-23T04:56:07.000+00:00
       properties:
         userId:
           format: UUID
@@ -436,23 +505,9 @@ components:
         name:
           title: name
           type: string
-        password:
-          title: password
-          type: string
-        jwt-secret:
-          title: jwt-secret
-          type: string
         shelf:
           format: UUID
           title: shelf
-          type: string
-        createdAt:
-          format: date-time
-          title: createdAt
-          type: string
-        updatedAt:
-          format: date-time
-          title: updatedAt
           type: string
       title: User
       type: object
@@ -473,26 +528,6 @@ components:
           format: date-time
           type: string
       type: object
-    ApiResponse:
-      example:
-        code: 0
-        type: type
-        message: message
-      properties:
-        code:
-          format: int32
-          title: code
-          type: integer
-        type:
-          title: type
-          type: string
-        message:
-          title: message
-          type: string
-      title: ApiResponse
-      type: object
-      xml:
-        name: '##default'
     authLogin_request:
       properties:
         id:

@@ -3,6 +3,7 @@ import jwt
 from db.models import Session, DBUser
 from sqlalchemy.sql import exists
 
+
 def info_from_bearerAuth(token):
     """
     Check and retrieve authentication information from custom bearer token.

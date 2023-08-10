@@ -4,9 +4,8 @@ from typing import Dict
 from typing import Tuple
 from typing import Union
 
-from openapi_server.models.api_response import ApiResponse  # noqa: E501
 from openapi_server.models.auth_login_request import AuthLoginRequest  # noqa: E501
-from openapi_server.models.user import User
+from openapi_server.models.user import User  # noqa: E501
 from openapi_server import util
 
 from db.models import Session, DBUser
@@ -17,14 +16,14 @@ import jwt
 
 
 def auth_login(auth_login_request=None):  # noqa: E501
-    """Returns me
+    """get authorize token
 
-    Returns me # noqa: E501
+    get authorize token # noqa: E501
 
     :param auth_login_request: 
     :type auth_login_request: dict | bytes
 
-    :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
+    :rtype: Union[str, Tuple[str, int], Tuple[str, int, Dict[str, str]]
     """
     if connexion.request.is_json:
         auth_login_request = AuthLoginRequest.from_dict(connexion.request.get_json())  # noqa: E501
@@ -42,18 +41,20 @@ def auth_login(auth_login_request=None):  # noqa: E501
                 "permission": "User"
             }
             token = jwt.encode(payload, user.jwt_secret)
-            return ApiResponse(code="200", type="string", message=token)
+            return token
     else:
-        return ApiResponse(code="401", type="string", message="Unauthorized"), 401
+        return None, 401
 
 
-def auth_logout(token_info):  # noqa: E501
+def auth_logout(authorization, token_info):  # noqa: E501
     """logout
 
-    logout # noqa: E501
+    delete token # noqa: E501
 
+    :param authorization: bearer token
+    :type authorization: str
 
-    :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
+    :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
     session = Session()
     if session.query(exists().where(DBUser.userId == token_info['id'])).scalar() > 0:
@@ -61,16 +62,18 @@ def auth_logout(token_info):  # noqa: E501
         user.jwt_secret = ""
         session.commit()
     
-    return ApiResponse(200, "string", "OK")
+    return None
 
 
-def auth_me(token_info):  # noqa: E501
+def auth_me(authorization, token_info):  # noqa: E501
     """Returns me
 
-    Returns me # noqa: E501
+    get authrized user info # noqa: E501
 
+    :param authorization: bearer token
+    :type authorization: str
 
-    :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
+    :rtype: Union[User, Tuple[User, int], Tuple[User, int, Dict[str, str]]
     """
     session = Session()
     if session.query(exists().where(DBUser.userId == token_info['id'])).scalar() > 0:

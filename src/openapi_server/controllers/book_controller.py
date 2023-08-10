@@ -4,7 +4,6 @@ from typing import Dict
 from typing import Tuple
 from typing import Union
 
-from openapi_server.models.api_response import ApiResponse  # noqa: E501
 from openapi_server.models.book import Book  # noqa: E501
 from openapi_server.models.post_book_request import PostBookRequest  # noqa: E501
 from openapi_server import util
@@ -12,15 +11,17 @@ from openapi_server import util
 from db.models import Session, DBBook, DBShelf
 from sqlalchemy.sql import exists
 
-def delete_book_info(book_id):  # noqa: E501
+def delete_book_info(authorization, book_id):  # noqa: E501
     """delete book info
 
     delete book info # noqa: E501
 
+    :param authorization: bearer token
+    :type authorization: str
     :param book_id: ID of book
     :type book_id: str
 
-    :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
+    :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
 
     session = Session()
@@ -28,9 +29,9 @@ def delete_book_info(book_id):  # noqa: E501
             book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
             session.delete(book)
             session.commit()
-            return ApiResponse(code="200", type="string", message="OK")
+            return None, 200
     else:
-         return (ApiResponse(code="404", type="string", message="Not Found"), 404)
+        return None, 404
 
 
 def get_book_info(book_id):  # noqa: E501
@@ -48,15 +49,15 @@ def get_book_info(book_id):  # noqa: E501
             book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
             return Book(book_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author, image_path = book.imagePath)
     else:
-         return (ApiResponse(code="404", type="string", message="Not Found"), 404)
-         
-        
+        return None, 404
 
-def patch_book_info(book_id, post_book_request=None):  # noqa: E501
+def patch_book_info(authorization, book_id, token_info, post_book_request=None):  # noqa: E501
     """patch book info
 
     patch book info # noqa: E501
 
+    :param authorization: bearer token
+    :type authorization: str
     :param book_id: ID of book
     :type book_id: str
     :param post_book_request: 
@@ -76,15 +77,17 @@ def patch_book_info(book_id, post_book_request=None):  # noqa: E501
             session.commit()
             return Book(book_id= str(book.bookId), isbn= book.isbn, title = book.title, author= book.author, image_path=book.imagePath)
     else:
-         return (ApiResponse(code="404", type="string", message="Not Found"), 404)
+        return None, 404
     
 
 
-def post_book(post_book_request=None, token_info = None):  # noqa: E501
+def post_book(authorization, post_book_request=None, token_info = None):  # noqa: E501
     """post book info
 
     post book info # noqa: E501
 
+    :param authorization: bearer token
+    :type authorization: str
     :param post_book_request: 
     :type post_book_request: dict | bytes
 

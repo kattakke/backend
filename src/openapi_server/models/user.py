@@ -15,51 +15,31 @@ class User(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, user_id=None, name=None, password=None, jwt_secret=None, shelf=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, user_id=None, name=None, shelf=None):  # noqa: E501
         """User - a model defined in OpenAPI
 
         :param user_id: The user_id of this User.  # noqa: E501
         :type user_id: str
         :param name: The name of this User.  # noqa: E501
         :type name: str
-        :param password: The password of this User.  # noqa: E501
-        :type password: str
-        :param jwt_secret: The jwt_secret of this User.  # noqa: E501
-        :type jwt_secret: str
         :param shelf: The shelf of this User.  # noqa: E501
         :type shelf: str
-        :param created_at: The created_at of this User.  # noqa: E501
-        :type created_at: datetime
-        :param updated_at: The updated_at of this User.  # noqa: E501
-        :type updated_at: datetime
         """
         self.openapi_types = {
             'user_id': str,
             'name': str,
-            'password': str,
-            'jwt_secret': str,
-            'shelf': str,
-            'created_at': datetime,
-            'updated_at': datetime
+            'shelf': str
         }
 
         self.attribute_map = {
             'user_id': 'userId',
             'name': 'name',
-            'password': 'password',
-            'jwt_secret': 'jwt-secret',
-            'shelf': 'shelf',
-            'created_at': 'createdAt',
-            'updated_at': 'updatedAt'
+            'shelf': 'shelf'
         }
 
         self._user_id = user_id
         self._name = name
-        self._password = password
-        self._jwt_secret = jwt_secret
         self._shelf = shelf
-        self._created_at = created_at
-        self._updated_at = updated_at
 
     @classmethod
     def from_dict(cls, dikt) -> 'User':
@@ -115,48 +95,6 @@ class User(Model):
         self._name = name
 
     @property
-    def password(self):
-        """Gets the password of this User.
-
-
-        :return: The password of this User.
-        :rtype: str
-        """
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        """Sets the password of this User.
-
-
-        :param password: The password of this User.
-        :type password: str
-        """
-
-        self._password = password
-
-    @property
-    def jwt_secret(self):
-        """Gets the jwt_secret of this User.
-
-
-        :return: The jwt_secret of this User.
-        :rtype: str
-        """
-        return self._jwt_secret
-
-    @jwt_secret.setter
-    def jwt_secret(self, jwt_secret):
-        """Sets the jwt_secret of this User.
-
-
-        :param jwt_secret: The jwt_secret of this User.
-        :type jwt_secret: str
-        """
-
-        self._jwt_secret = jwt_secret
-
-    @property
     def shelf(self):
         """Gets the shelf of this User.
 
@@ -176,45 +114,3 @@ class User(Model):
         """
 
         self._shelf = shelf
-
-    @property
-    def created_at(self):
-        """Gets the created_at of this User.
-
-
-        :return: The created_at of this User.
-        :rtype: datetime
-        """
-        return self._created_at
-
-    @created_at.setter
-    def created_at(self, created_at):
-        """Sets the created_at of this User.
-
-
-        :param created_at: The created_at of this User.
-        :type created_at: datetime
-        """
-
-        self._created_at = created_at
-
-    @property
-    def updated_at(self):
-        """Gets the updated_at of this User.
-
-
-        :return: The updated_at of this User.
-        :rtype: datetime
-        """
-        return self._updated_at
-
-    @updated_at.setter
-    def updated_at(self, updated_at):
-        """Sets the updated_at of this User.
-
-
-        :param updated_at: The updated_at of this User.
-        :type updated_at: datetime
-        """
-
-        self._updated_at = updated_at

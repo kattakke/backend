@@ -4,7 +4,6 @@ from typing import Dict
 from typing import Tuple
 from typing import Union
 
-from openapi_server.models.api_response import ApiResponse  # noqa: E501
 from openapi_server import util
 
 
@@ -14,7 +13,6 @@ def health_check():  # noqa: E501
     Always return 200 # noqa: E501
 
 
-    :rtype: Union[ApiResponse, Tuple[ApiResponse, int], Tuple[ApiResponse, int, Dict[str, str]]
+    :rtype: Union[None, Tuple[None, int], Tuple[None, int, Dict[str, str]]
     """
-    return ApiResponse(code="200", type="string", message="OK")
-    
+    return None
