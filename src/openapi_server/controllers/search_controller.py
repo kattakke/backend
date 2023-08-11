@@ -18,6 +18,6 @@ def get_search_book(title=None, isbn=None):  # noqa: E501
     :param isbn: The isbn of book
     :type isbn: str
 
-    :rtype: Union[BookSearch, Tuple[BookSearch, int], Tuple[BookSearch, int, Dict[str, str]]
+    :rtype: Union[List[BookSearch], Tuple[List[BookSearch], int], Tuple[List[BookSearch], int, Dict[str, str]]
     """
     return 'do some magic!'

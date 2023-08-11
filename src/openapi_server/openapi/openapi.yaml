@@ -256,7 +256,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BookSearch'
+                items:
+                  $ref: '#/components/schemas/BookSearch'
+                type: array
           description: successful operation
       summary: search book
       tags:
