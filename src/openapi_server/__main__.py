@@ -15,6 +15,7 @@ def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
     app.app.json_encoder = encoder.JSONEncoder
     app.app.config['JSON_AS_ASCII'] = False
+    app.app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"pool_pre_ping": True}  
     CORS(app.app)
     app.add_api('openapi.yaml',
                 arguments={'title': 'Swagger Kattakke - OpenAPI 3.0'},
