@@ -27,48 +27,53 @@ def get_search_book(title: str=None, isbn: str=None):  # noqa: E501
     :rtype: Union[List[BookSearch], Tuple[List[BookSearch], int], Tuple[List[BookSearch], int, Dict[str, str]]
     """
 
-
-    if not title == None:
+    if not title=="":
         url = f'https://www.googleapis.com/books/v1/volumes?q={title}'
         r = requests.get(url)
-
-        items = r.json()['items']
-        books = []
-        for book_ in items:
-            title_ = book_['volumeInfo']['title']
-            isbn_ = ""
-            author_ = ""
-            image_path_ = ""
-            if 'industryIdentifiers' in book_['volumeInfo']:
-                isbn_ = book_['volumeInfo']['industryIdentifiers'][0]['identifier']
-            if 'authors' in book_['volumeInfo']:
-                author_ = book_['volumeInfo']['authors'][0]
-            if 'imageLinks' in book_['volumeInfo']:
-                image_path_ = book_['volumeInfo']['imageLinks']['thumbnail']
-            books.append(BookSearch(isbn=isbn_, title=title_, author=author_, image_path=image_path_))
-
-        # return (PostBookRequest(isbn=books[0]['isbn'], title=books[0]['title'], author=books[0]['author']), 200)
-        return (books, 200)
-    if not isbn == None:
+        if r.status_code >= 200 and r.status_code < 300:
+            items = r.json()['items']
+            books = []
+            for book_ in items:
+                title_ = book_['volumeInfo']['title']
+                isbn_ = ""
+                author_ = ""
+                image_path_ = ""
+                if 'industryIdentifiers' in book_['volumeInfo']:
+                    isbn_ = book_['volumeInfo']['industryIdentifiers'][0]['identifier']
+                if 'authors' in book_['volumeInfo']:
+                    author_ = book_['volumeInfo']['authors'][0]
+                if 'imageLinks' in book_['volumeInfo']:
+                    image_path_ = book_['volumeInfo']['imageLinks']['thumbnail']
+                books.append(BookSearch(isbn=isbn_, title=title_, author=author_, image_path=image_path_))
+            # return (PostBookRequest(isbn=books[0]['isbn'], title=books[0]['title'], author=books[0]['author']), 200)
+            return (books, 200)
+        else:
+            return([], 500)
+    elif not isbn=="":
         url = f'https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}'
         # search book from isbn
 
         r = requests.get(url)
-        items = r.json()['items']
-        books = []
-        for book_ in items:
-            title_ = book_['volumeInfo']['title']
-            isbn_ = ""
-            author_ = ""
-            image_path_ = ""
-            if 'industryIdentifiers' in book_['volumeInfo']:
-                isbn_ = book_['volumeInfo']['industryIdentifiers'][0]['identifier']
-            if 'authors' in book_['volumeInfo']:
-                author_ = book_['volumeInfo']['authors'][0]
-            if 'imageLinks' in book_['volumeInfo']:
-                image_path_ = book_['volumeInfo']['imageLinks']['thumbnail']
-            books.append(BookSearch(isbn=isbn_, title=title_, author=author_, image_path=image_path_))
-        return (books, 200)
+        if r.status_code >= 200 and r.status_code < 300:
+            items = r.json()['items']
+            books = []
+            for book_ in items:
+                title_ = book_['volumeInfo']['title']
+                isbn_ = ""
+                author_ = ""
+                image_path_ = ""
+                if 'industryIdentifiers' in book_['volumeInfo']:
+                    isbn_ = book_['volumeInfo']['industryIdentifiers'][0]['identifier']
+                if 'authors' in book_['volumeInfo']:
+                    author_ = book_['volumeInfo']['authors'][0]
+                if 'imageLinks' in book_['volumeInfo']:
+                    image_path_ = book_['volumeInfo']['imageLinks']['thumbnail']
+                books.append(BookSearch(isbn=isbn_, title=title_, author=author_, image_path=image_path_))
+            return (books, 200)
+        else:
+            return([], 500)
+    else:
+        return([], 200)
     # if session.query(exists().where(DBBook.isbn == isbn)).scalar() > 0:
     #     # print("本あったよ")
     #     books = session.query(DBBook.query.filter(DBBook.isbn == isbn)).all()
