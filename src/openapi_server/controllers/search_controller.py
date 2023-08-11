@@ -14,6 +14,8 @@ from sqlalchemy.sql import exists
 
 import requests
 
+import os
+
 def get_search_book(title: str=None, isbn: str=None):  # noqa: E501
     """search book
 
@@ -28,7 +30,7 @@ def get_search_book(title: str=None, isbn: str=None):  # noqa: E501
     """
 
     if not title=="":
-        url = f'https://www.googleapis.com/books/v1/volumes?q={title}'
+        url = f'https://www.googleapis.com/books/v1/volumes?q={title}&key={os.getenv("GOOGLE_BOOKS_API_KEY")}'
         r = requests.get(url)
         if r.status_code >= 200 and r.status_code < 300:
             if not 'items' in r.json():
@@ -52,7 +54,7 @@ def get_search_book(title: str=None, isbn: str=None):  # noqa: E501
         else:
             return([], 500)
     elif not isbn=="":
-        url = f'https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}'
+        url = f'https://www.googleapis.com/books/v1/volumes?q=isbn:{isbn}&key={os.getenv("GOOGLE_BOOKS_API_KEY")}'
         # search book from isbn
 
         r = requests.get(url)
