@@ -86,7 +86,7 @@ def get_user_shelf(user_id, title=None, tag=None, isbn=None):  # noqa: E501
             books = session.query(DBShelf, DBBook).filter(DBShelf.shelfId == shelf, DBShelf.book == DBBook.bookId)
         l = []
         for _, i in books.all():
-            b = Book(book_id= str(i.bookId), isbn= i.isbn, title = i.title, author= i.author, image_path = i.imagePath)
+            b = Book(book_id= str(i.bookId), isbn= i.isbn, title = i.title, author= i.author, image_path = i.imagePath, updated_at=i.updated_at, created_at=i.created_at)
             if not b is None:
                 l.append(b)
         return l
