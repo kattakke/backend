@@ -186,6 +186,21 @@ curl -X "GET" \
   "${kattakke_host}/api/v0/users/${userId}/shelf?title=asdf&tag=asdf&isbn=asdf" \
   -H "accept: application/json"
 
+curl -X "GET" \
+  "${kattakke_host}/api/v0/users/${userId}/shelf?title=2023" \
+  -H "accept: application/json"
+
+curl -X "GET" \
+  "${kattakke_host}/api/v0/users/${userId}/shelf?isbn=123412341236" \
+  -H "accept: application/json"
+
+
+curl -G -v \
+  --data-urlencode "title=自然科学実験" \
+  --data-urlencode "isbn=" \
+  "${kattakke_host}/api/v0/search" \
+  -H "accept: application/json"
+
 curl -G -v \
   --data-urlencode "title=自然科学実験" \
   "${kattakke_host}/api/v0/search" \

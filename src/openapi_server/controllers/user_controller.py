@@ -11,6 +11,7 @@ from openapi_server import util
 from db.models import Session, DBUser, DBBook, DBShelf
 import bcrypt
 from sqlalchemy.sql import exists
+from sqlalchemy.sql import or_
 from openapi_server.controllers.book_controller import get_book_info
 
 def delete_user_info(authorization = None, user_id = None, token_info = None):  # noqa: E501
@@ -76,10 +77,16 @@ def get_user_shelf(user_id, title=None, tag=None, isbn=None):  # noqa: E501
     if session.query(exists().where(DBUser.userId == user_id)).scalar() > 0:
         user = session.query(DBUser).filter(DBUser.userId == user_id).first()
         shelf = user.shelf
-        books = session.query(DBShelf).filter(DBShelf.shelfId==shelf).all()
+
+        if (not title is None) and not title == "":
+            books = session.query(DBShelf, DBBook).filter(DBShelf.shelfId == shelf, DBShelf.book == DBBook.bookId, DBBook.title.contains(title))
+        elif (not isbn is None) and not isbn == "":
+            books = session.query(DBShelf, DBBook).filter(DBShelf.shelfId == shelf, DBShelf.book == DBBook.bookId, DBBook.isbn.contains(isbn))
+        else:
+            books = session.query(DBShelf, DBBook).filter(DBShelf.shelfId == shelf, DBShelf.book == DBBook.bookId)
         l = []
-        for i in books:
-            b = get_book_info(i.book)
+        for _, i in books.all():
+            b = Book(book_id= str(i.bookId), isbn= i.isbn, title = i.title, author= i.author, image_path = i.imagePath)
             if not b is None:
                 l.append(b)
         return l
