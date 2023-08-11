@@ -25,13 +25,19 @@ def delete_book_info(authorization = None, book_id = None):  # noqa: E501
     """
 
     session = Session()
+    if session.query(exists().where(DBShelf.book == book_id)).scalar() > 0:
+            book = session.query(DBShelf).filter(DBShelf.book == book_id).first()
+            session.delete(book)
+            session.commit()
+    else:
+        return None, 400
     if session.query(exists().where(DBBook.bookId == book_id)).scalar() > 0:
             book = session.query(DBBook).filter(DBBook.bookId == book_id).first()
             session.delete(book)
             session.commit()
-            return None, 200
     else:
-        return None, 404
+        return None, 400
+    return None, 200
 
 
 def get_book_info(book_id):  # noqa: E501
