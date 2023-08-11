@@ -121,7 +121,7 @@ curl -X "POST" \
   "isbn": "123412341234",
   "title": "自然科学実験2020",
   "author": "北海道大学",
-  "imagePath": "http://example.com/example.png"
+  "imagePath": "https://books.google.com/books/content?id=QnFmzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
 }'
 
 curl -X "POST" \
@@ -133,7 +133,7 @@ curl -X "POST" \
   "isbn": "123412341235",
   "title": "自然科学実験2021",
   "author": "北海道大学",
-  "imagePath": "http://example.com/example.png"
+  "imagePath": "https://books.google.com/books/content?id=QnFmzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
 }'
 
 curl -X "POST" \
@@ -145,7 +145,7 @@ curl -X "POST" \
   "isbn": "123412341236",
   "title": "自然科学実験2022",
   "author": "北海道大学",
-  "imagePath": "http://example.com/example.png"
+  "imagePath": "https://books.google.com/books/content?id=QnFmzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
 }'
 
 
@@ -159,7 +159,7 @@ bookid=$(curl -X "POST" \
   "isbn": "123412341236",
   "title": "自然科学実験2023",
   "author": "北海道大学",
-  "imagePath": "http://example.com/example.png"
+  "imagePath": "https://books.google.com/books/content?id=QnFmzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
 }'  | python3 -c 'import sys, json; print(json.load(sys.stdin)["bookId"])')
 
 curl -X "GET" \
@@ -175,7 +175,7 @@ curl -X "PATCH" \
   "isbn": "123412341237",
   "title": "自然科学実験2023",
   "author": "北海道大学",
-  "imagePath": "http://example.com/example.png"
+  "imagePath": "https://books.google.com/books/content?id=QnFmzgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
 }'
 
 curl -X "GET" \
