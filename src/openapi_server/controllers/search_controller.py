@@ -31,6 +31,8 @@ def get_search_book(title: str=None, isbn: str=None):  # noqa: E501
         url = f'https://www.googleapis.com/books/v1/volumes?q={title}'
         r = requests.get(url)
         if r.status_code >= 200 and r.status_code < 300:
+            if not 'items' in r.json():
+                return ([], 200)
             items = r.json()['items']
             books = []
             for book_ in items:
@@ -55,6 +57,8 @@ def get_search_book(title: str=None, isbn: str=None):  # noqa: E501
 
         r = requests.get(url)
         if r.status_code >= 200 and r.status_code < 300:
+            if not 'items' in r.json():
+                return ([], 200)
             items = r.json()['items']
             books = []
             for book_ in items:
