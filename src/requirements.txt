@@ -13,3 +13,4 @@ Flask
 Flask-SQLAlchemy==2.5.1
 bcrypt
 pyjwt
+flask_cors

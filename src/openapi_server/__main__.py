@@ -9,11 +9,13 @@ from openapi_server import encoder
 
 import db.models
 
+from flask_cors import CORS
 
 def main():
     app = connexion.App(__name__, specification_dir='./openapi/')
     app.app.json_encoder = encoder.JSONEncoder
     app.app.config['JSON_AS_ASCII'] = False
+    CORS(app.app)
     app.add_api('openapi.yaml',
                 arguments={'title': 'Swagger Kattakke - OpenAPI 3.0'},
                 pythonic_params=True)
