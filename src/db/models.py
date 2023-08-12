@@ -1,7 +1,7 @@
-from sqlalchemy import create_engine, Column, DateTime, String, UUID, text, VARCHAR, CHAR, TIMESTAMP, ForeignKey
+from sqlalchemy import create_engine, Column, DateTime, String, UUID, text, VARCHAR, CHAR, TIMESTAMP, ForeignKey, update
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-
+from datetime import datetime
 
 Base = declarative_base()
 global session
@@ -16,7 +16,7 @@ class DBUser(Base):
     createdAt = Column(TIMESTAMP, nullable=False, server_default=text(
         'CURRENT_TIMESTAMP'))
     updatedAt = Column(TIMESTAMP, nullable=False, server_default=text(
-        'CURRENT_TIMESTAMP'))
+        'CURRENT_TIMESTAMP'), onupdate=datetime.utcnow)
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
     
@@ -29,7 +29,7 @@ class DBShelf(Base):
     createdAt = Column(TIMESTAMP, nullable=False, server_default=text(
         'CURRENT_TIMESTAMP'))
     updatedAt = Column(TIMESTAMP, nullable=False, server_default=text(
-        'CURRENT_TIMESTAMP'))
+        'CURRENT_TIMESTAMP'), onupdate=datetime.utcnow)
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
@@ -45,7 +45,7 @@ class DBBook(Base):
     created_at = Column(TIMESTAMP, nullable=False, server_default=text(
         'CURRENT_TIMESTAMP'))
     updated_at = Column(TIMESTAMP, nullable=False, server_default=text(
-        'CURRENT_TIMESTAMP'))
+        'CURRENT_TIMESTAMP'), onupdate=datetime.utcnow)
     def as_dict(self):
        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
